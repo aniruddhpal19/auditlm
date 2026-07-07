@@ -1,4 +1,4 @@
-# Phase 3B run-1 QLoRA — MLX-LM. Base = Llama-3.1-8B-Instruct (4-bit), same model the
+# Run-1 QLoRA — MLX-LM. Base = Llama-3.1-8B-Instruct (4-bit), same model the
 # baseline serves as ollama:llama3.1:8b. Completions-only (mask_prompt). 2 epochs over
 # 357 train demos at batch 2 -> 358 iters. NOTE on conventions: mlx 'scale' is a DIRECT
 # LoRA multiplier (not HF alpha/r); default num_layers keys = all attention+MLP projections

@@ -1,4 +1,4 @@
-"""Phase 1 corpus pipeline: normalize -> clean -> dedup -> filter -> segment.
+"""Corpus pipeline: normalize -> clean -> dedup -> filter -> segment.
 
 Reads the per-source JSONL corpora, unifies them into one schema, removes exact
 and near-duplicate records, drops empty/tiny/garbled fragments, and segments long
@@ -11,7 +11,7 @@ counts from the Qwen2.5 tokenizer, and writes the corpus statistics report.
 Outputs:
     data/corpus/unified.jsonl   normalized, deduped, filtered full documents
     data/corpus/chunks.jsonl    overlapping passages with citation metadata
-    CORPUS_STATS.md             the Phase 1 statistics report
+    CORPUS_STATS.md             the corpus statistics report
 """
 
 from __future__ import annotations
@@ -190,7 +190,7 @@ def segment(rec: dict, ids: list[int], tok: Tokenizer) -> list[dict]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="Build the unified Phase 1 corpus.")
+    ap = argparse.ArgumentParser(description="Build the unified corpus.")
     ap.add_argument("--corpus", type=Path, default=Path("data/corpus"))
     ap.add_argument("--stats", type=Path, default=Path("CORPUS_STATS.md"))
     args = ap.parse_args(argv)
@@ -249,7 +249,7 @@ def write_stats(path, n_raw, dedup_stats, dropped_quality, unified, chunks):
     total_tokens = int(df["token_count"].sum())
     n = len(unified)
 
-    lines = ["# AuditLM — Phase 1 Corpus Statistics", "",
+    lines = ["# AuditLM — Corpus Statistics", "",
              f"Unified corpus of **{n:,} documents** and **{total_tokens:,} tokens** "
              "(Qwen2.5 tokenizer), segmented into "
              f"**{len(chunks):,} passages**.", "",

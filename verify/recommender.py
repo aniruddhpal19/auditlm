@@ -1,10 +1,10 @@
-"""Component 5 — recommender orchestration (Phase 4 Verified-Citation Recommender).
+"""Recommender orchestration — the end of the verified-citation pipeline.
 
 End-to-end wrapper; the model and RAG layer are UNTOUCHED:
 
   question -> RAG retrieve (existing rag/, tiered_guardrail policy)
            -> model generate (auditlm-run2 via ollama, matching eval serving)   [unchanged]
-           -> parser -> verifier -> confidence label                            [Phase 4]
+           -> parser -> verifier -> confidence label                            [verify layer]
            -> {labeled_answer, verification_report, source_chunk_ids}
 
 The display layer DEDUPS the verifier's (deliberately verbose) annotations: stripped citations

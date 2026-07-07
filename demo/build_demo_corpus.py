@@ -1,11 +1,12 @@
 """Demo-corpus runner: push 55 realistic auditor questions through the SAME verified
-recommender that produced the Phase 4 results (rag tiered_guardrail -> auditlm-run2 ->
+recommender that produced the reported results (rag tiered_guardrail -> auditlm-run2 ->
 parser -> verifier -> confidence label), and store what an auditor would see.
 
 Local only — recommend() calls ollama on localhost; no judge, no API key, runs free.
 
 Writes demo/auditor_demo_corpus.jsonl (one record/question) + a browsable .md, then asserts
-the Phase-4 machine property: shown_fabrications == 0 across all 55 stored answers.
+the verification layer's machine-checkable property: shown_fabrications == 0 across all 55
+stored answers.
 """
 from __future__ import annotations
 
@@ -65,7 +66,7 @@ def main():
     OUT_JSONL.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in records) + "\n",
                          encoding="utf-8")
 
-    # --- recount guard: same machine-checkable property as Phase 4, on the STORED answers ---
+    # --- recount guard: the verification layer's machine-checkable property, on the STORED answers ---
     leaks = []
     for r in records:
         rc = independent_recount(r["answer"], idx)

@@ -1,10 +1,10 @@
 """Grounding wrapper — retrieve hybrid passages and build the grounding prompt.
 
 Model-agnostic by design: it produces a prompt string from a question + retrieved
-passages, so the SAME wrapper serves Base+RAG now and Base+SFT+RAG later (Phase 3B).
+passages, so the SAME wrapper serves both Base+RAG and Base+SFT+RAG.
 
 Two grounding policies (select via AUDITLM_GROUNDING=tiered|strict; default tiered):
-  - TIERED (default, Phase 3B): strict on citations, soft on substance.
+  - TIERED (default; the SFT run uses it): strict on citations, soft on substance.
   - STRICT (ablation): strict everywhere. Both preserved — see PHASE3A_RAG_RESULTS.md.
 """
 
@@ -15,8 +15,8 @@ import os
 from corpus import DEFAULT_CHUNKS
 from hybrid import HybridRetriever
 
-# Two grounding policies, both preserved for the Phase 3A ablation. Select with the
-# AUDITLM_GROUNDING env var: "tiered" (default) or "strict". Phase 3B SFT uses TIERED
+# Two grounding policies, both preserved for the RAG-baseline ablation. Select with the
+# AUDITLM_GROUNDING env var: "tiered" (default) or "strict". SFT uses TIERED
 # (the model learns the strict-citation part as a skill while keeping soft-reasoning
 # fallback); STRICT remains reproducible for the paper's ablation.
 
@@ -65,11 +65,11 @@ TIERED_POLICY = (
     "a specific standard, and reason from your own knowledge where the passages fall short."
 )
 
-# Phase 3B run-2 guardrail (counters the over-grounding-on-given-inputs failure, e.g. calc
+# Run-2 guardrail (counters the over-grounding-on-given-inputs failure, e.g. calc
 # substituting a retrieved SAB-99 rule for an explicit 70%). Appended to the tiered policy
 # for BOTH run-2 training (grounded demos) and run-2 serving (AUDITLM_GROUNDING=tiered_guardrail),
-# so train and inference match. Phase 3A's plain TIERED_POLICY is left unchanged for the
-# baseline's reproducibility.
+# so train and inference match. The RAG baseline's plain TIERED_POLICY is left unchanged
+# for reproducibility.
 GUARDRAIL = ("\nUSE GIVEN INPUTS: Use the specific inputs, numbers, and facts given in the "
              "question. Do NOT substitute a general rule or threshold from the passages for an "
              "explicit value the question provides.")
@@ -78,7 +78,7 @@ TIERED_GUARDRAIL_POLICY = TIERED_POLICY + GUARDRAIL
 POLICIES = {"strict": STRICT_POLICY, "tiered": TIERED_POLICY,
             "tiered_guardrail": TIERED_GUARDRAIL_POLICY}
 DEFAULT_POLICY = os.environ.get("AUDITLM_GROUNDING", "tiered").lower()
-GROUNDING_POLICY = POLICIES.get(DEFAULT_POLICY, TIERED_POLICY)   # default tiered (3B)
+GROUNDING_POLICY = POLICIES.get(DEFAULT_POLICY, TIERED_POLICY)   # default tiered
 
 
 def _passage_label(chunk: dict) -> str:

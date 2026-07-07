@@ -22,7 +22,7 @@ WEIGHTS = {
 }
 
 # Major ASC topics (number -> name) the corpus indexes at topic level; used for ASC-side
-# citation + disclosure seeds (answered from knowledge per behavior 5).
+# citation + disclosure seeds (answered from parametric knowledge, with disclosure).
 ASC = {
     "606": "revenue from contracts with customers", "842": "leases", "820": "fair value measurement",
     "740": "income taxes", "326": "credit losses (CECL)", "350": "goodwill and other intangibles",

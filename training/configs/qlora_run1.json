@@ -1,5 +1,5 @@
 {
-  "_comment": "Phase 3B run-1 QLoRA config. Same base as the baseline (ollama:llama3.1:8b = Llama-3.1-8B-Instruct) so Base->SFT is apples-to-apples. Modest config: small rank + few epochs to avoid overfitting at ~400-600 demos.",
+  "_comment": "Run-1 QLoRA config. Same base as the baseline (ollama:llama3.1:8b = Llama-3.1-8B-Instruct) so Base->SFT is apples-to-apples. Modest config: small rank + few epochs to avoid overfitting at ~400-600 demos.",
   "base_model_hf": "meta-llama/Llama-3.1-8B-Instruct",
   "base_model_mlx": "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit",
   "method": "qlora",

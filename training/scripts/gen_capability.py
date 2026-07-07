@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "rag"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from ground import Grounder                       # noqa: E402  (the Phase 3A RAG layer)
+from ground import Grounder                       # noqa: E402  (the RAG retrieval layer)
 import corpus_verify as cv                         # noqa: E402
 import teacher as T                                # noqa: E402
 

@@ -22,11 +22,11 @@ from recommender import Recommender  # noqa: E402  (same import path as demo/bui
 QS = {r["qid"]: r for r in (json.loads(l) for l in
       (ROOT / "demo" / "auditor_questions.jsonl").read_text().splitlines() if l.strip())}
 EXAMPLES = [
-    ("auq-001", "🟢 Citation lookup → GROUNDED", None),
-    ("auq-013", "🟢 Audit procedure → GROUNDED", None),
-    ("auq-021", "🔵 Independence conclusion → DEFER", "independence_conclusion"),
-    ("auq-035", "🔵 Fraud scenario → DEFER", "fraud_accusation"),
-    ("auq-046", "⚪ Out-of-scope (FASB/ASC) → declines", None),
+    ("auq-001", "Citation lookup → GROUNDED", None),
+    ("auq-013", "Audit procedure → GROUNDED", None),
+    ("auq-021", "Independence conclusion → DEFER", "independence_conclusion"),
+    ("auq-035", "Fraud scenario → DEFER", "fraud_accusation"),
+    ("auq-046", "Out-of-scope (FASB/ASC) → declines", None),
 ]
 # example text -> its deferral zone, so example buttons reproduce the demo-corpus behaviour
 # (same as build_demo_corpus.py). Free-typed questions get zone=None (question-cue detection).
@@ -35,7 +35,7 @@ EXAMPLE_ZONES = {QS[qid]["question"]: zone for qid, _label, zone in EXAMPLES}
 DISCLAIMER = (
     '<div style="border:2px solid #d29922;background:#fff8c5;color:#4d3800;padding:12px 16px;'
     'border-radius:8px;margin:6px 0;font-size:15px;line-height:1.5">'
-    '<b>⚠️ These are RECOMMENDATIONS, not certified-correct answers.</b> Every citation shown '
+    '<b>These are RECOMMENDATIONS, not certified-correct answers.</b> Every citation shown '
     'is verified to <b>exist</b> in the corpus — this does <b>not</b> certify the answer is '
     'correct. Verify against the cited sources. <b>Not professional advice.</b></div>'
 )
@@ -100,8 +100,8 @@ def verification_md(rep: dict, grounding_rule: list, source_chunk_ids: list) -> 
                  + (f"  (stripped: {', '.join(names)})" if names else ""))
         L.append("")
     L.append(f"**Fabrications shown: {rep.get('shown_fabrications', 0)}** "
-             + ("— re-parsing the answer finds no ungrounded citation. ✅" if rep.get("shown_fabrications", 0) == 0
-                else "⚠️"))
+             + ("— re-parsing the answer finds no ungrounded citation." if rep.get("shown_fabrications", 0) == 0
+                else "— WARNING: ungrounded citations detected."))
     if source_chunk_ids:
         L.append("")
         L.append("_Retrieved passages (RAG context): " + ", ".join(f"`{c}`" for c in source_chunk_ids) + "_")
@@ -115,7 +115,7 @@ def respond(question: str):
     try:
         out = REC.recommend(question, deferral_zone=EXAMPLE_ZONES.get(question))
     except Exception as e:  # noqa: BLE001 — surface infra errors to the tester
-        return ('<div style="color:#b00;font-weight:700">⚠️ Could not get a recommendation</div>',
+        return ('<div style="color:#b00;font-weight:700">Could not get a recommendation</div>',
                 f"Is Ollama running with the **auditlm-run2** model?\n\n`{type(e).__name__}: {e}`", "")
     return (badge_html(out["label"]),
             answer_body(out["labeled_answer"]),
@@ -138,7 +138,7 @@ def build() -> gr.Blocks:
                 gr.Button(label, size="sm").click(lambda qid=qid: QS[qid]["question"], outputs=q)
         badge = gr.HTML(label="Confidence")
         answer = gr.Markdown(label="Recommendation")
-        with gr.Accordion("🔎 Verification details — what was checked (the differentiator)", open=False):
+        with gr.Accordion("Verification details — what was checked", open=False):
             verif = gr.Markdown()
         submit.click(respond, inputs=q, outputs=[badge, answer, verif])
         q.submit(respond, inputs=q, outputs=[badge, answer, verif])

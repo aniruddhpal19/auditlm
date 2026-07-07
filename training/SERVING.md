@@ -1,8 +1,8 @@
-# Phase 3B — Serving the SFT model for evaluation (step 6 wiring)
+# Serving the SFT model for evaluation
 
 The trained LoRA adapters are served through **Ollama** so the existing AssuranceBench
 runner evaluates **Base + RAG + SFT** exactly like the prior configs — same test split,
-same judge, same scoring, **tiered grounding** (the Phase 3B default), apples-to-apples
+same judge, same scoring, **tiered grounding** (the SFT default), apples-to-apples
 with the RAG-tiered baseline.
 
 ## Serving path
@@ -30,7 +30,7 @@ Smoke-tested end-to-end through the runner (`rag:ollama:auditlm` on a citation d
 retrieval → tiered grounded prompt → SFT model → exact_citation PASS. (Direct generate
 without RAG hallucinates — confirming SFT learned to *use* the retrieved passages.)
 
-## Run the evaluations (your key — the judge needs ANTHROPIC_API_KEY)
+## Run the evaluations (the judge needs ANTHROPIC_API_KEY)
 From the `assurancebench` directory, with `AUDITLM_RAG` set and the rag venv:
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...

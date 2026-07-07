@@ -11,8 +11,7 @@ venv/
 *.key
 .claude/
 
-# Planning / internal docs — local only. Covers CLAUDE.md and the phase*_spec.md specs.
-# (NOT the public guide/README/CORPUS_STATS, and NOT rag/PHASE3A_RAG_RESULTS.md.)
+# Local planning docs — not tracked
 CLAUDE.md
 *_spec.md
 
@@ -47,5 +46,5 @@ demo/build.log
 .vscode/
 .idea/
 
-# Internal planning docs (local only)
+# Local planning docs
 *_PLAN.md

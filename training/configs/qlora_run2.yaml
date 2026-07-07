@@ -1,8 +1,8 @@
-# Phase 3B run-2 QLoRA — GENTLER than run 1 (which over-perturbed: assertive disposition
+# Run-2 QLoRA — GENTLER than run 1 (which over-perturbed: assertive disposition
 # steamrolled good behavior, e.g. calc 1.00 -> 0.68). Run 2: 1 epoch (2 overfit), half LR,
 # half rank, slightly lower scale. base + completions-only + grad-checkpoint unchanged.
-# Data = run-2 train set (format-split: grounded reformat + plain regen + rebalanced safety),
-# assembled after approval; iters set then for 1 epoch over that set.
+# Data = run-2 train set (format-split: grounded reformat + plain regen + rebalanced safety);
+# iters set for 1 epoch over that set.
 model: "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit"
 train: true
 fine_tune_type: lora

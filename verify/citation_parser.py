@@ -1,4 +1,4 @@
-"""Component 2 — citation parser (Phase 4 Verified-Citation Recommender).
+"""Citation parser for the verified-citation recommender.
 
 Extract citation spans from free-text model output, each with its enclosing sentence (so the
 verifier can strip precisely without mangling prose) and a canonical identifier (so the index
@@ -7,7 +7,7 @@ lookup is reliable across surface variants).
 Single source: the finder regex and canonicalize() live in citation_index.py and are imported
 here, not duplicated. The parser adds two things on top:
   1. enclosing-sentence segmentation + char spans;
-  2. negation / honest-disclosure detection (behavior-5): a citation inside a "not in the
+  2. negation / honest-disclosure detection: a citation inside a "not in the
      retrieved passages / from general knowledge / topic stub" sentence is the model being
      transparent, not asserting. It is passed through tagged honest_disclaimer, NOT stripped.
      Detection is scoped to the ENCLOSING SENTENCE — a disclaimer elsewhere in the answer must
@@ -22,8 +22,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from citation_index import CITATION_FINDER, canonicalize  # noqa: E402
 
-# Honest-disclosure cues (behavior-5). Spec's three core cues + the surface variants the real
-# run-2 outputs use ("drawn from general knowledge of ASC 718"). Matched case-insensitively
+# Honest-disclosure cues: the three core cues plus the surface variants seen in real
+# run-2 output ("drawn from general knowledge of ASC 718"). Matched case-insensitively
 # anywhere in the citation's enclosing sentence.
 NEGATION_CUES = (
     "not in the retrieved passage", "not in the passage", "not in the retrieved material",
@@ -43,7 +43,7 @@ class Span:
     citation_normalized: str   # canonical identifier, e.g. "17 CFR 210.2-01(c)(3)"
     family: str                # AS | 17 CFR | GAGAS | ASC | AU-C | IFRS | IAS | ISA
     enclosing_sentence: str
-    honest_disclaimer: bool    # True => behavior-5 transparency; pass through, never strip
+    honest_disclaimer: bool    # True => honest-disclosure transparency; pass through, never strip
 
 
 def _sentence_spans(text: str) -> list[tuple[int, int]]:

@@ -1,4 +1,4 @@
-"""Component-4 label logic (no network): the four labels + zone detection, incl. the
+"""Confidence-label logic (no network): the four labels + zone detection, incl. the
 conclusion-seeking guard (a lookup that merely mentions 'fraud' must NOT become DEFER)."""
 from __future__ import annotations
 

@@ -46,11 +46,9 @@ class BM25Retriever:
         return [(cid, s[cid]) for cid in top if s[cid] > 0]
 
 
-# --- STRUCTURED-IDENTIFIER EXACT-MATCH PATH (paper: describe the retrieval method as
-# "dense + BM25 RRF with a structured-identifier exact-match path for explicit citation
-# queries") ---
+# --- STRUCTURED-IDENTIFIER EXACT-MATCH PATH ---
 # When a query contains an explicit standard identifier (AS NNNN / ASC NNN), we match
-# it against the structured standard_id / asc_topic metadata preserved in Phase 1 and
+# it against the structured standard_id / asc_topic metadata the corpus pipeline keeps and
 # rank THAT standard's own passages first — like a standards-research tool (type
 # "AS 2110", get AS 2110). It is deterministic, transparent, and scoped to identifier
 # queries ONLY; concept queries (no identifier) skip this entirely and use pure

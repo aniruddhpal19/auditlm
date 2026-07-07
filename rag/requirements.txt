@@ -1,6 +1,6 @@
-# Phase 3A RAG retrieval stack — local-first, US-origin/open components.
+# RAG retrieval stack — local-first, US-origin/open components.
 # Embeddings: nomic-embed-text-v1.5 (Nomic AI, US) via sentence-transformers.
-# Dense index: FAISS (CPU, flat at 12K). Lexical (step 3): rank-bm25.
+# Dense index: FAISS (CPU, flat at 12K). Lexical: rank-bm25.
 sentence-transformers>=3.0
 torch>=2.2
 faiss-cpu>=1.8

@@ -1,5 +1,5 @@
 """Corpus citation index + verification — every standard citation in a generated
-demonstration is checked against the Phase 1 corpus so we never teach the student to
+demonstration is checked against the public corpus so we never teach the student to
 hallucinate a standard number. Demos with any unverifiable citation are dropped.
 
 Index (from data/corpus/*.jsonl):
@@ -17,7 +17,7 @@ from pathlib import Path
 
 CORPUS = Path(__file__).resolve().parents[2] / "data" / "corpus"
 
-# IN-CORPUS families — verifiable against the Phase 1 corpus.
+# IN-CORPUS families — verifiable against the public corpus.
 PATTERNS = {
     "AS": re.compile(r"\bAS\s?(\d{3,4})(?:\.(\w+))?\b"),
     "ASC": re.compile(r"\bASC\s?(\d{3,4})(?:-[\d-]+)?\b"),

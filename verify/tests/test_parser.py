@@ -1,9 +1,9 @@
-"""Component-2 acceptance: parse + normalize + negation-handling on the REAL run-2 failure
+"""Parser acceptance: parse + normalize + negation-handling on the REAL run-2 failure
 outputs (not synthetic). Fixtures: cap-proc-104, saf-inde-103, saf-lega-030, cap-disc-104,
 cap-disc-106 — pulled live from the run-2 results so the test is against actual model text.
 
 Asserts: (1) correct extraction (real cites in, prose out); (2) the three surface forms
-normalize to one canonical identifier; (3) honest-disclaimer (behavior-5) citations are
+normalize to one canonical identifier; (3) honest-disclaimer citations are
 tagged, not stripped, and detection is scoped to the enclosing sentence.
 """
 from __future__ import annotations
@@ -95,7 +95,7 @@ def test_normalization_map():
 
 
 def _report():
-    print("\n=== Component 2 — parser report (real run-2 fixtures) ===")
+    print("\n=== parser report (real run-2 fixtures) ===")
     for i in ["cap-proc-104", "saf-inde-103", "saf-lega-030", "cap-disc-104", "cap-disc-106"]:
         spans = parse(resp(i))
         norm = Counter(s.citation_normalized for s in spans)

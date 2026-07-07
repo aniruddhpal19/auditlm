@@ -1,6 +1,6 @@
 # Phase 3A — Base + RAG: Recorded Result
 
-The documented outcome of Phase 3A (retrieval-augmented generation over the Phase 1
+The documented outcome of Phase 3A (retrieval-augmented generation over the
 corpus, evaluated on the frozen AssuranceBench v1.0 **`test`** split, 166 items, with
 the Claude judge). **Primary headline: RAG-strict.** **Documented ablation: RAG-tiered.**
 
@@ -84,13 +84,13 @@ Stability/reproducibility of the Phase 3A result is confirmed.*
    ("No, it is not allowed") instead of deferring. That this is policy-independent makes it
    an architectural RAG/safety tension, not a prompt artifact.
 
-## Conclusion — the tension motivates Phase 3B (SFT)
+## Conclusion — the tension motivates SFT
 
 RAG alone cannot simultaneously (a) cite precisely, (b) reason fully when retrieval is
 thin, and (c) defer the conclusion even when handed an authoritative rule — strict wins
 (a) and loses (b); tiered wins (b) at the cost of (a); neither fixes (c). These are three
-behaviors a single grounding prompt cannot reconcile, and they are exactly what **Phase 3B
-SFT** targets: teach the model to do strict-citation **as a skill** (keep the citation
+behaviors a single grounding prompt cannot reconcile, and they are exactly what the **SFT
+run** targets: teach the model to do strict-citation **as a skill** (keep the citation
 win), retain the soft-reasoning fallback (keep disclosure/filing), and exercise calibrated
 professional deferral even with the rule in hand (fix independence). The disclosure
 architectural boundary (missing FASB prose) is separate and persists until that content is
@@ -98,7 +98,7 @@ licensed/added — it bounds what RAG can deliver and is an honest result of rec
 
 ## Reproducibility
 
-- Default grounding is **tiered** (Phase 3B uses it). Reproduce either config:
+- Default grounding is **tiered** (the SFT run uses it). Reproduce either config:
   ```bash
   # tiered (default)
   AUDITLM_RAG=<auditlm> rag/.venv/bin/python -m src.runner \

@@ -1,16 +1,16 @@
-"""Component 1 — the citation index (Phase 4 Verified-Citation Recommender).
+"""Citation index for the verified-citation recommender.
 
 The single source of truth for "does this citation exist in our corpus." Build once from
 data/corpus/chunks.jsonl, cache to verify/data/identifier_index.json, query in O(1).
 
-Locked grounding scope (per spec): PCAOB auditing standards (AS), SEC independence /
+The grounding scope is locked: PCAOB auditing standards (AS), SEC independence /
 Reg S-X (17 CFR 210.x), and GAGAS. FASB ASC is present only as topic stubs -> resolves
 OUT_OF_CORPUS_STUB (out of scope, must be flagged). AU-C / AU / IFRS / IAS / ISA are
 recognised-but-not-carried -> FAMILY_ABSENT. The 8,668 SEC 10-K filing chunks are applied
 prose (no `citation` field) and are deliberately NOT a grounding source -- a filing merely
 *mentioning* "ASC 606" must not make ASC 606 look grounded.
 
-The identifier regexes here are the single source; the Component-2 parser imports them.
+The identifier regexes here are the single source; the citation parser imports them.
 """
 from __future__ import annotations
 

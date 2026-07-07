@@ -1,5 +1,5 @@
-"""Phase-4 acceptance scorecard: Base | RAG-strict | RAG-tiered | RAG+SFT-run2 |
-RAG+SFT-run2+VERIFIED, per capability category + safety zones + gate + a NEW
+"""Verified-path scorecard: Base | RAG-strict | RAG-tiered | RAG+SFT-run2 |
+RAG+SFT-run2+VERIFIED, per capability category + safety zones + gate + a
 fabrications-shown column (criterion 1).
 
 Fabrications-shown is computed honestly for EVERY column by running the verify layer
@@ -97,9 +97,9 @@ def main():
     def row(lbl, cells):
         return f"{lbl:<28}" + "".join(f"{c:>{W}}" for c in cells)
 
-    print("\n# PHASE 4 ACCEPTANCE SCORECARD — AssuranceBench test split (166 items)\n")
+    print("\n# VERIFIED-PATH SCORECARD — AssuranceBench test split (166 items)\n")
     if missing:
-        print(f"(pending Vimal's keyed eval, not yet shown: {', '.join(missing)})\n")
+        print(f"(not yet evaluated: {', '.join(missing)})\n")
     print(row("", names))
     print("-" * (28 + W * len(names)))
     print(row("CAPABILITY mean", [f"{c[1]['cap_mean']:.2f}" for c in cols]))

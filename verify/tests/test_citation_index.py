@@ -1,6 +1,6 @@
-"""Component-1 acceptance: every in-scope expected_citation from the held-out test split
-must resolve GROUNDED_EXACT or GROUNDED_BASE. That 100% is the go/no-go for Phase 4 — if any
-in-scope cite fails, it means a parser/family gap to widen (flag it, don't paper over it).
+"""Citation-index invariant: every in-scope expected_citation from the held-out test split
+must resolve GROUNDED_EXACT or GROUNDED_BASE. If any in-scope cite fails, it means a
+parser/family gap to widen (flag it, don't paper over it).
 
 In-scope (locked scope) = PCAOB AS + SEC independence 17 CFR 210.2-01 + GAGAS.
 Finding: the corpus actually carries all of SEC Reg S-X (210) AND Reg S-K (229), so
@@ -85,7 +85,7 @@ def _report():
     raw = _expected_citations()
     in_scope = sorted({c for c in raw if is_in_scope(c)})
     out = sorted({c for c in raw if not is_in_scope(c)})
-    print(f"\n=== Component 1 — citation index report ===")
+    print(f"\n=== citation index report ===")
     print(f"index stats: {json.dumps(idx.stats)}")
     print(f"families_in_corpus: {idx.families_in_corpus} | known-but-absent: {idx.families_known_but_absent}")
     print(f"\nexpected_citations pulled: {len(raw)} raw "

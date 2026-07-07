@@ -17,7 +17,7 @@ It runs on a single high-end laptop (Apple M3 Max, 36 GB), costs nothing per que
 
 ## Why this exists
 
-General chatbots are fluent but **fabricate** — they cite rule numbers that sound real but don't exist, and give confident wrong conclusions. In casual use that's annoying; in auditing a wrong citation or a wrong independence/fraud conclusion has legal and regulatory consequences. So "just use a general chatbot for audit questions" is exactly what you can't safely do. AuditLM's thesis: for a small open-corpus audit model, **citation trustworthiness is an architectural property (verified retrieval), not a capability to fine-tune in** — and the model's job is skills + judgment while a comprehensive RAG corpus holds the facts.
+General chatbots are fluent but **fabricate** — they cite rule numbers that sound real but don't exist, and give confident wrong conclusions. In casual use that's annoying; in auditing a wrong citation or a wrong independence/fraud conclusion has legal and regulatory consequences. So "just use a general chatbot for audit questions" is exactly what you can't safely do. AuditLM's thesis: for a small open-corpus audit model, **citation trustworthiness is an architectural property (verified retrieval), not a capability to fine-tune in** — and the model's job is skills + judgment while a RAG corpus holds the facts.
 
 ## The arc: Base → RAG → SFT → Verification
 
@@ -66,9 +66,9 @@ auditlm/
   data/          public corpus (PCAOB, SEC 10-K/regs/SAB, GAGAS, FASB stubs) + collectors
   rag/           hybrid retrieval + grounding-prompt layer
   training/      SFT data + QLoRA configs (MLX, local) + serving
-  verify/        Phase-4 verification layer (index, parser, verifier, confidence, recommender)
+  verify/        verification layer (index, parser, verifier, confidence, recommender)
   demo/          55-question demo corpus through the verified recommender
-  CORPUS_STATS.md, AuditLM_plain_language_guide.md
+  CORPUS_STATS.md
 ```
 
 ## Quickstart

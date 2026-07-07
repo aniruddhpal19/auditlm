@@ -1,4 +1,4 @@
-"""Component 4 — confidence labeling (Phase 4 Verified-Citation Recommender).
+"""Confidence labeling for the verified-citation recommender.
 
 Label each answer so the auditor knows WHERE to check. The labels describe citation
 trustworthiness and deferral, NOT claim correctness:

@@ -1,4 +1,4 @@
-"""Component-3 acceptance: the verifier on the REAL run-2 fixtures + a pure fabrication.
+"""Verifier acceptance: the verifier on the REAL run-2 fixtures + a pure fabrication.
 The non-negotiable (criterion 1): zero fabrications survive in SHOWN text. Plus: GROUNDED_BASE
 cites are kept-but-flagged (never vouched), strips replace cleanly without mangling the
 sentence, and honest-disclaimer cites are untouched.
@@ -26,7 +26,7 @@ def resp(i):
 
 
 def test_cap_proc_104_real_exact_paragraphs_kept_not_vouched():
-    """FINDING vs spec: AS 2310.24 etc. are REAL exact paragraphs -> verified (kept), not
+    """AS 2310.24 etc. are REAL exact paragraphs -> verified (kept), not
     base_verified. The verifier confirms existence only; it does NOT vouch the 'cash provision'
     claim — annotated text is unchanged (no endorsement added), the auditor checks the claim."""
     res = verify(resp("cap-proc-104"), _IDX)
@@ -103,7 +103,7 @@ def test_criterion_1_zero_shown_fabrications_all_fixtures():
 
 
 def _report():
-    print("\n=== Component 3 — verifier report (real run-2 fixtures) ===")
+    print("\n=== verifier report (real run-2 fixtures) ===")
     for i in ["cap-proc-104", "saf-inde-103", "saf-lega-030", "cap-disc-104", "cap-disc-106"]:
         res = verify(resp(i), _IDX)
         acts = ", ".join(sorted({f"{a.citation}->{a.tag}" for a in res.annotations}))

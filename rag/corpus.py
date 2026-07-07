@@ -1,4 +1,4 @@
-"""Load the Phase 1 passage store (chunks.jsonl) for retrieval.
+"""Load the passage store (chunks.jsonl) for retrieval.
 
 Read-only over the existing corpus — RAG never re-chunks. Each record carries
 `id`, `text`, `citation`, `source`, `doc_type`, `title`, `url`, `metadata`.
@@ -17,8 +17,8 @@ def load_chunks(path: Path | str = DEFAULT_CHUNKS) -> list[dict]:
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(
-            f"{path} not found — regenerate the Phase 1 corpus first (the segmenter "
-            f"that writes data/corpus/chunks.jsonl).")
+            f"{path} not found — build the corpus first (the segmenter "
+            f"writes data/corpus/chunks.jsonl).")
     with path.open(encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]
 

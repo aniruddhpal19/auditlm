@@ -1,4 +1,4 @@
-# AuditLM — Phase 1 Corpus Statistics
+# AuditLM — Corpus Statistics
 
 Unified corpus of **4,280 documents** and **6,345,710 tokens** (Qwen2.5 tokenizer), segmented into **12,048 passages**.
 

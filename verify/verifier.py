@@ -1,8 +1,7 @@
-"""Component 3 — the verifier (Phase 4 Verified-Citation Recommender). THE CORE.
+"""The verifier — the core gate of the verified-citation recommender.
 
 Deterministic gate: raw model output -> annotated output + verification_report, where NO
-fabricated citation survives in what is SHOWN. This is the property the whole phase exists to
-deliver.
+fabricated citation survives in what is SHOWN.
 
 resolve() -> action mapping:
   GROUNDED_EXACT      keep, tag="verified", attach chunk_id(s)
@@ -10,7 +9,7 @@ resolve() -> action mapping:
   OUT_OF_CORPUS_STUB  STRIP, replace with placeholder, tag="stripped"   (e.g. ASC)
   FAMILY_ABSENT       STRIP + flag                                       (AU-C/IFRS/IAS/ISA)
   UNRECOGNIZED        STRIP + flag                                       (fabrications, AS 9999.01)
-  honest_disclaimer   keep untouched, tag="honest_disclaimer"           (behavior-5, from parser)
+  honest_disclaimer   keep untouched, tag="honest_disclaimer"           (from the parser)
 
 The honesty boundary (critical): the verifier confirms citation EXISTENCE, never citation
 CORRECTNESS. tag="verified" means the cited paragraph is real and retrievable — NOT that the

@@ -1,4 +1,4 @@
-"""Step 4 — assemble the training set and run the CONTAMINATION GATE (hard stop).
+"""Assemble the training set and run the CONTAMINATION GATE (hard stop).
 
 1. Normalize the hand-curated safety demos into the grounded-prompt training format and
    verify their PCAOB/ASC citations with the SAME corpus verifier as the capability demos.
@@ -48,7 +48,7 @@ def shingles(text):
     return {hash(tuple(t[i:i + K])) for i in range(len(t) - K + 1)}
 
 
-# ---- 1. normalize safety + verify its citations -----------------------------------
+# ---- normalize safety + verify citations ------------------------------------------
 def normalize_safety(r):
     grounded = (f"{TIERED_POLICY}\n\nRETRIEVED PASSAGES:\n{r['retrieved_context']}\n\n"
                 f"QUESTION:\n{r['question']}\n\nAnswer:")
@@ -85,7 +85,7 @@ def main():
     train = cap + saf
     print(f"\n=== MERGE === capability {len(cap)} + safety {len(saf)} = {len(train)} training demos")
 
-    # ---- 3. contamination gate ----------------------------------------------------
+    # ---- contamination gate --------------------------------------------------------
     test = [it for f in (AB / "items").glob("*.jsonl") for it in load(f) if it.get("split") == "test"]
     test_sh = [(it["id"], shingles(it["question"] + " " + (it.get("reference_answer") or ""))) for it in test]
     print(f"\n=== CONTAMINATION GATE === {len(train)} training demos vs {len(test)} test items "
