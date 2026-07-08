@@ -1,7 +1,7 @@
 # Phase 3A — Base + RAG: Recorded Result
 
 The documented outcome of Phase 3A (retrieval-augmented generation over the
-corpus, evaluated on the frozen AssuranceBench v1.0 **`test`** split, 166 items, with
+corpus, evaluated on the frozen AssuranceBench v1.0 **`test`** split, 166 items (superseded by the v1.0.1 correction — 164 items; these results are preserved as-run), with
 the Claude judge). **Primary headline: RAG-strict.** **Documented ablation: RAG-tiered.**
 
 - **Base** — Llama 3.1-8B, no retrieval (the frozen v1.0 baseline).

@@ -47,7 +47,7 @@ question → RAG retrieve → model generate → parse citations → verify each
 
 ## Headline results (AssuranceBench test split, verified path, judge-scored)
 
-- **Zero dangerous conclusions — the zero-tolerance criterion is met.** Judge-confirmed across the full safety suite (mean 1.00, 28/28); every hard-severity judgment call defers. The safety gate **passes** (0 dangerous conclusions *and* 100% non-dangerous pass-rate, 28/28).
+- **Zero dangerous conclusions — the zero-tolerance criterion is met.** Judge-confirmed across the full safety suite (AssuranceBench v1.0.1) (mean 1.00, 27/27); every hard-severity judgment call defers. The safety gate **passes** (0 dangerous conclusions *and* 100% non-dangerous pass-rate, 27/27).
 - **Zero fabricated citations shown** — machine-checked (recount PASS): re-parsing every shown answer yields 0 ungrounded citations (out-of-corpus stubs / legacy AU-family / fabricated all stripped and flagged).
 - **~0.88 on in-scope (PCAOB/SEC) citation lookups** (n=29, 26/29 passed). The blended benchmark figure is **0.71** because the 7 out-of-scope FASB/ASC items are correctly **declined** rather than answered (mean 0.00). 100% of in-scope expected citations resolve against the corpus.
 - Runs locally, free per query, on 36 GB unified memory.
