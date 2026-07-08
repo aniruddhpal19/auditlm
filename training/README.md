@@ -61,9 +61,8 @@ training/
 ```
 
 ## Contamination
-Capability demos are generated from the **task taxonomy + corpus**, never from the 166 test
-items. The dev split (45) is **style-anchor only** (read for format, never trained on). The
-contamination checker (shingle overlap vs all 166 test items) is a **hard stop before
+Capability demos are generated from the **task taxonomy + corpus**, never from the 164 test items (v1.0.1). The dev split (45) is **style-anchor only** (read for format, never trained on). The
+contamination checker (shingle overlap vs all 164 test items) is a **hard stop before
 training** — training cannot start until the set is verified clean.
 
 ## Honest framing
