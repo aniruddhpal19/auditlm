@@ -53,28 +53,101 @@ def build(chunks_path: Path = DEFAULT_CHUNKS, batch_size: int = 32,
     chunks = load_chunks(chunks_path)
     ids = [c["id"] for c in chunks]
     texts = [DOC_PREFIX + (c.get("text") or "") for c in chunks]
-    print(f"[dense] embedding {len(texts)} passages with {MODEL_NAME} on {device} ...",
-          file=sys.stderr)
+
+    print(
+        f"[dense] embedding {len(texts)} passages with {MODEL_NAME} "
+        f"on {device} ...",
+        file=sys.stderr,
+    )
+
     model = load_model(device)
-    emb = model.encode(texts, batch_size=batch_size, normalize_embeddings=True,
-                       convert_to_numpy=True, show_progress_bar=True).astype("float32")
-    # Import faiss only AFTER embedding: torch and faiss each bundle their own
-    # OpenMP runtime, and loading both before the heavy encode segfaults on macOS.
+
+    # Encode in checkpointed groups so an interruption doesn't lose
+    # the entire build.
+    checkpoint_dir = INDEX_DIR / "checkpoints"
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+
+    checkpoint_size = 256
+    embeddings = []
+
+    for start in range(0, len(texts), checkpoint_size):
+        end = min(start + checkpoint_size, len(texts))
+        checkpoint = checkpoint_dir / f"embeddings_{start:05d}_{end:05d}.npy"
+
+        if checkpoint.exists():
+            print(
+                f"[dense] loading checkpoint {start}:{end}",
+                file=sys.stderr,
+            )
+            emb = np.load(checkpoint)
+        else:
+            print(
+                f"[dense] encoding {start}:{end} "
+                f"({end - start} passages)...",
+                file=sys.stderr,
+            )
+
+            emb = model.encode(
+                texts[start:end],
+                batch_size=batch_size,
+                normalize_embeddings=True,
+                convert_to_numpy=True,
+                show_progress_bar=True,
+            ).astype("float32")
+
+            np.save(checkpoint, emb)
+
+            print(
+                f"[dense] checkpoint saved: {checkpoint}",
+                file=sys.stderr,
+            )
+
+        embeddings.append(emb)
+
+    emb = np.concatenate(embeddings, axis=0)
+
+    # Import FAISS only after embedding.
     import faiss
+
     INDEX_DIR.mkdir(exist_ok=True)
+
     np.save(INDEX_DIR / "embeddings.npy", emb)
+
     index = faiss.IndexFlatIP(emb.shape[1])
     index.add(emb)
-    faiss.write_index(index, str(INDEX_DIR / "dense.faiss"))
-    (INDEX_DIR / "ids.json").write_text(json.dumps(ids), encoding="utf-8")
-    meta = {"model": MODEL_NAME, "dim": int(emb.shape[1]), "count": len(ids),
-            "doc_prefix": DOC_PREFIX, "query_prefix": QUERY_PREFIX,
-            "normalized": True, "metric": "inner_product"}
-    (INDEX_DIR / "meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
-    print(f"[dense] built index: {len(ids)} vectors, dim {emb.shape[1]} -> {INDEX_DIR}",
-          file=sys.stderr)
-    return meta
 
+    faiss.write_index(
+        index,
+        str(INDEX_DIR / "dense.faiss"),
+    )
+
+    (INDEX_DIR / "ids.json").write_text(
+        json.dumps(ids),
+        encoding="utf-8",
+    )
+
+    meta = {
+        "model": MODEL_NAME,
+        "dim": int(emb.shape[1]),
+        "count": len(ids),
+        "doc_prefix": DOC_PREFIX,
+        "query_prefix": QUERY_PREFIX,
+        "normalized": True,
+        "metric": "inner_product",
+    }
+
+    (INDEX_DIR / "meta.json").write_text(
+        json.dumps(meta, indent=2),
+        encoding="utf-8",
+    )
+
+    print(
+        f"[dense] built index: {len(ids)} vectors, "
+        f"dim {emb.shape[1]} -> {INDEX_DIR}",
+        file=sys.stderr,
+    )
+
+    return meta
 
 class DenseRetriever:
     def __init__(self, chunks_path: Path = DEFAULT_CHUNKS, device: str = "cpu"):

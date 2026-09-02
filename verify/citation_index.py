@@ -1,4 +1,4 @@
-"""Citation index for the verified-citation recommender.
+﻿"""Citation index for the verified-citation recommender.
 
 The single source of truth for "does this citation exist in our corpus." Build once from
 data/corpus/chunks.jsonl, cache to verify/data/identifier_index.json, query in O(1).
@@ -33,7 +33,7 @@ class Resolution(str, Enum):
     UNRECOGNIZED = "UNRECOGNIZED"              # unparseable, or parseable but base absent (fabricated)
 
 
-# ---- identifier families (single source — the parser reuses canonicalize()) ----------
+# ---- identifier families (single source â€” the parser reuses canonicalize()) ----------
 # Ordered so the more specific prefixes (ASC, 17 CFR, GAGAS) are tried before bare AS.
 GROUNDED_FAMILIES = ("AS", "17 CFR", "GAGAS")
 FAMILIES_ABSENT = ("AU-C", "IFRS", "IAS", "ISA")
@@ -50,7 +50,7 @@ _RE_IFRS = re.compile(r"(?i)^IFRS\s+\d+")
 _RE_IAS = re.compile(r"(?i)^IAS\s+\d+")
 _RE_ISA = re.compile(r"(?i)^ISA\s+\d+")
 
-# Unanchored finder over free model text — SAME identifier shapes as the anchored regexes
+# Unanchored finder over free model text â€” SAME identifier shapes as the anchored regexes
 # above (the parser imports this; single source, no duplication). Includes the surface
 # aliases (Section / [..] / ASC Topic) so spans are caught, then canonicalize() normalizes.
 CITATION_FINDER = re.compile(r"(?i)\b(?:"
@@ -119,7 +119,7 @@ class CitationIndex:
         skipped_other = 0
         family_counts: dict[str, int] = defaultdict(int)
 
-        with open(chunks_path) as fh:
+        with open(chunks_path, encoding="utf-8") as fh:
             for line in fh:
                 if not line.strip():
                     continue
@@ -139,7 +139,7 @@ class CitationIndex:
                     continue
                 parsed = canonicalize(cite)
                 if parsed is None:
-                    skipped_other += 1           # e.g. SAB topics — present but out of scope
+                    skipped_other += 1           # e.g. SAB topics â€” present but out of scope
                     continue
                 fam, canon, b, has_para = parsed
                 if fam == "ASC":
@@ -224,3 +224,4 @@ if __name__ == "__main__":
     idx = CitationIndex.load_or_build(rebuild=True)
     print("built + cached ->", CACHE)
     print(json.dumps(idx.stats, indent=2))
+

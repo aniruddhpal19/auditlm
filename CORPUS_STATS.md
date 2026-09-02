@@ -65,6 +65,5 @@ Unified corpus of **4,280 documents** and **6,345,710 tokens** (Qwen2.5 tokenize
 - **Flattened tables:** financial-statement tables lose column structure in text extraction; note prose is preserved.
 - **SAB 114:** a broad multi-topic codification update, so its single extracted SAB-Codification topic is approximate.
 - **FASB ASC:** topic/subtopic **number** scaffolding only (from the public XBRL taxonomy); the licensed/bot-protected ASC prose is not reproduced.
-- **AS 2401 superseded ranges (not a collection gap):** the current effective PCAOB AS 2401 skips paragraphs **.14–.51** and **.68–.78** (and .03, .84). That content — fraud-risk identification, assessment, and certain responses — was **relocated** to **AS 2110** (identifying/assessing risks), **AS 2301** (responses), and **AS 2810** (evaluating results) when PCAOB adopted the risk-assessment standards, as AS 2401.01A states. The collector's AS 2401 paragraph set exactly matches the live source; the corpus reflects the **current effective standard**, and the gaps are the standard's own renumbering, not a parsing failure. (Example: the improper-revenue-recognition fraud presumption — legacy AU-316/SAS-99 paragraph .41 — is now **AS 2110.68**, present and verbatim in the corpus.)
 - **Wells Fargo** 10-K skipped (cover-page primary document; financials incorporated by reference).
 

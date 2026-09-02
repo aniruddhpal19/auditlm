@@ -48,3 +48,7 @@ demo/build.log
 
 # Local planning docs
 *_PLAN.md
+
+# Local build/debug files
+dense_build_error.txt
+*.py.bak
